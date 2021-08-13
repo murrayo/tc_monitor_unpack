@@ -147,6 +147,15 @@ def average_episode_size(DIRECTORY, MonitorAppFile, MonitorDatabaseFile, TRAKDOC
     print("Episode size: %s" % outputName)
 
     df_master_ep = pd.read_csv(MonitorAppFile, sep="\t", encoding="ISO-8859-1")
+
+    # EpisodeCountEmergency column is empty() in some versions of TC
+    emergency_empty = False
+    if pd.isna(df_master_ep["EpisodeCountEmergency"]).all():
+        emergency_empty = True
+    lab_empty = False
+    if pd.isna(df_master_ep["LabEpisodeCountTotal"]).all():
+        lab_empty = True
+
     df_master_ep = df_master_ep.dropna(axis=1, how="all")
     df_master_ep = df_master_ep.rename(columns={"RunDate": "Date"})
 
@@ -154,17 +163,13 @@ def average_episode_size(DIRECTORY, MonitorAppFile, MonitorDatabaseFile, TRAKDOC
     # print(f"\nTEST\n")
     # print(f"\n{df_master_ep.to_string()}\n")
 
-    df_master_ep = df_master_ep[
-        [
-            "Date",
-            "RunTime",
-            "EpisodeCountTotal",
-            "EpisodeCountEmergency",
-            "EpisodeCountInpatient",
-            "EpisodeCountOutpatient",
-        ]
-    ]
-    # df_master_ep = df_master_ep[["Date", "RunTime", "EpisodeCountTotal", "EpisodeCountInpatient", "EpisodeCountOutpatient", "LabEpisodeCountTotal"]]
+    columns = ["Date", "RunTime", "EpisodeCountTotal", "EpisodeCountInpatient", "EpisodeCountOutpatient"]
+    if not emergency_empty:
+        columns.append("EpisodeCountEmergency")
+    if not lab_empty:
+        columns.append("LabEpisodeCountTotal")
+
+    df_master_ep = df_master_ep[columns]
 
     # print(f"\nDatabase\n{df_master_ep}")
     # Get the database growth data
@@ -310,26 +315,27 @@ def average_episode_size(DIRECTORY, MonitorAppFile, MonitorDatabaseFile, TRAKDOC
             )
 
             # Emergency
-            f.write(
-                "Sum Emergency episodes                   : "
-                + "{v:,.0f}".format(v=df_result["EpisodeCountEmergency"].sum())
-                + "\n"
-            )
-            f.write(
-                "Average Emergency episodes/day           : "
-                + "{v:,.0f}".format(v=df_result["EpisodeCountEmergency"].mean())
-                + "\n"
-            )
-            f.write(
-                "Peak Emergency episodes/day              : "
-                + "{v:,.0f}".format(v=df_result["EpisodeCountEmergency"].max())
-                + "\n"
-            )
-            f.write(
-                "Estimated Emergency episodes/year        : "
-                + "{v:,.0f}".format(v=df_result["EpisodeCountEmergency"].mean() * 365)
-                + "\n\n"
-            )
+            if not emergency_empty:
+                f.write(
+                    "Sum Emergency episodes                   : "
+                    + "{v:,.0f}".format(v=df_result["EpisodeCountEmergency"].sum())
+                    + "\n"
+                )
+                f.write(
+                    "Average Emergency episodes/day           : "
+                    + "{v:,.0f}".format(v=df_result["EpisodeCountEmergency"].mean())
+                    + "\n"
+                )
+                f.write(
+                    "Peak Emergency episodes/day              : "
+                    + "{v:,.0f}".format(v=df_result["EpisodeCountEmergency"].max())
+                    + "\n"
+                )
+                f.write(
+                    "Estimated Emergency episodes/year        : "
+                    + "{v:,.0f}".format(v=df_result["EpisodeCountEmergency"].mean() * 365)
+                    + "\n\n"
+                )
 
             # Inpatient
             f.write(
@@ -375,26 +381,27 @@ def average_episode_size(DIRECTORY, MonitorAppFile, MonitorDatabaseFile, TRAKDOC
             )
 
             # # Lab
-            # f.write(
-            #     "Sum Lab episodes                   : "
-            #     + "{v:,.0f}".format(v=df_result["LabEpisodeCountTotal"].sum())
-            #     + "\n"
-            # )
-            # f.write(
-            #     "Average Lab episodes/day           : "
-            #     + "{v:,.0f}".format(v=df_result["LabEpisodeCountTotal"].mean())
-            #     + "\n"
-            # )
-            # f.write(
-            #     "Peak Lab episodes/day              : "
-            #     + "{v:,.0f}".format(v=df_result["LabEpisodeCountTotal"].max())
-            #     + "\n"
-            # )
-            # f.write(
-            #     "Estimated Lab episodes/year        : "
-            #     + "{v:,.0f}".format(v=df_result["LabEpisodeCountTotal"].mean() * 365)
-            #     + "\n\n"
-            # )
+            if not lab_empty:
+                f.write(
+                    "Sum Lab episodes                          : "
+                    + "{v:,.0f}".format(v=df_result["LabEpisodeCountTotal"].sum())
+                    + "\n"
+                )
+                f.write(
+                    "Average Lab episodes/day                  : "
+                    + "{v:,.0f}".format(v=df_result["LabEpisodeCountTotal"].mean())
+                    + "\n"
+                )
+                f.write(
+                    "Peak Lab episodes/day                     : "
+                    + "{v:,.0f}".format(v=df_result["LabEpisodeCountTotal"].max())
+                    + "\n"
+                )
+                f.write(
+                    "Estimated Lab episodes/year               : "
+                    + "{v:,.0f}".format(v=df_result["LabEpisodeCountTotal"].mean() * 365)
+                    + "\n\n"
+                )
 
             f.write(
                 "Total database growth{0}{1} databases: {2:,.3f}".format(
