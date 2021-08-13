@@ -1565,6 +1565,6 @@ if __name__ == "__main__":
         TRAKDOCS = [""]
 
     try:
-        mainline(DIRECTORY, TRAKDOCS, args.globals)
+        mainline(DIRECTORY, TRAKDOCS, args.exclude_globals)
     except OSError as e:
         print("Could not process files because: {}".format(str(e)))
