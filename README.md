@@ -73,3 +73,9 @@ Add one or more databases to separate out to the database list on the command li
 docker run -v "/path/to/folder/with text files":/data --rm --name tc_monitor_unpack tc_monitor_unpack ./tc_monitor_unpack.py -d /data -l PRD_DOCUMENT PRD-MONITOR
 ```
 
+# Updates
+
+Remove the old image and create a new one with updated source code
+
+`docker rmi tc_monitor_unpack`
+
