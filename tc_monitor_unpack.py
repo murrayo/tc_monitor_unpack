@@ -635,6 +635,12 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
         TextString = (
             TextString + ", Est Episodes/year : " + "{v:,.0f}".format(v=df_master_ep["EpisodeCountTotal"].mean() * 365)
         )
+        TextString = (
+            TextString + "\nPeak Episodes/hour : " + "{v:,.0f}".format(v=df_master_ep["EpisodePeakPerHourCount"].max())
+        )
+        TextString = (
+            TextString + ", Peak Episodes/min : " + "{v:,.0f}".format(v=df_master_ep["EpisodePeakPerMinuteCount"].max())
+        )
 
         generic_plot(
             df_master_ep,
