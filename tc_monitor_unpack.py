@@ -49,7 +49,7 @@ def generic_plot(
     colormap_name = "Set1"
 
     plt.style.use("seaborn-whitegrid")
-    plt.figure(num=None, figsize=(10, 6), dpi=300)
+    plt.figure(num=None, figsize=(16, 6), dpi=300)
     palette = plt.get_cmap(colormap_name)
     color = palette(1)
 
@@ -96,7 +96,7 @@ def generic_top_n(df_sort, top_n, df_master_ps, plot_what, title, y_label, save_
     grpd = df_master_ps.groupby("pName")
 
     plt.style.use("seaborn-whitegrid")
-    plt.figure(num=None, figsize=(10, 6), dpi=300)
+    plt.figure(num=None, figsize=(16, 6), dpi=300)
     palette = plt.get_cmap(colormapName)
     color = palette(1)
 
@@ -233,7 +233,7 @@ def average_episode_size(DIRECTORY, MonitorAppFile, MonitorDatabaseFile, TRAKDOC
     RunDateEnd = RunDateEnd[0].strftime("%d/%m/%Y")
 
     plt.style.use("seaborn-whitegrid")
-    plt.figure(num=None, figsize=(10, 6), dpi=300)
+    plt.figure(num=None, figsize=(16, 6), dpi=300)
     palette = plt.get_cmap(colormapName)
     color = palette(1)
 
@@ -572,7 +572,7 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
         RunDateEnd = df_last_week.tail(1).index.strftime("%d/%m/%Y")
         TITLEDATES = str(RunDateStart[0]) + " to " + str(RunDateEnd[0])
 
-        plt.figure(figsize=(10, 6), dpi=300)
+        plt.figure(figsize=(16, 6), dpi=300)
         plt.title("Journals switches across day  " + TITLEDATES, fontsize=14)
         plt.tick_params(labelsize=10)
 
@@ -665,7 +665,7 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
         # Example of multiple charts. To do; Make this a function to accept any number of items
 
         plt.style.use("seaborn-whitegrid")
-        plt.figure(num=None, figsize=(10, 6), dpi=300)
+        plt.figure(num=None, figsize=(16, 6), dpi=300)
         palette = plt.get_cmap(colormapName)
         color = palette(1)
 
@@ -686,7 +686,7 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
         plt.close()
 
         plt.style.use("seaborn-whitegrid")
-        plt.figure(num=None, figsize=(10, 6), dpi=300)
+        plt.figure(num=None, figsize=(16, 6), dpi=300)
         palette = plt.get_cmap(colormapName)
         color = palette(1)
 
@@ -818,7 +818,7 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
 
         # Bar chart - top N Total Growth
         plt.style.use("seaborn-whitegrid")
-        plt.figure(num=None, figsize=(10, 6), dpi=300)
+        plt.figure(num=None, figsize=(16, 6), dpi=300)
         palette = plt.get_cmap(colormapName)
         color = palette(1)
         index = np.arange(len(df_databases_by_growth["Database"].head(TopNDatabaseByGrowth)))
@@ -855,7 +855,7 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
         grpd = df_master_db.groupby("Name")
 
         plt.style.use("seaborn-whitegrid")
-        plt.figure(num=None, figsize=(10, 6), dpi=300)
+        plt.figure(num=None, figsize=(16, 6), dpi=300)
         palette = plt.get_cmap(colormapName)
         color = palette(1)
 
@@ -1030,7 +1030,7 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
             all_values.append(j)
 
         plt.style.use("seaborn-whitegrid")
-        plt.figure(num=None, figsize=(10, 6), dpi=300)
+        plt.figure(num=None, figsize=(16, 6), dpi=300)
 
         palette = plt.get_cmap(colormapName)
         palette_cycle = sns.color_palette("Set1")
@@ -1198,7 +1198,7 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
             current_palette_10 = sns.color_palette("Paired", TopNDatabaseByGrowth)
             sns.set_palette(current_palette_10)
 
-            plt.figure(num=None, figsize=(10, 6), dpi=300)
+            plt.figure(num=None, figsize=(16, 6), dpi=300)
             index = np.arange(len(df_globals_by_growth["Full_Global"].head(TopNDatabaseByGrowth)))
             plt.barh(
                 df_globals_by_growth["Full_Global"].head(TopNDatabaseByGrowth),
@@ -1234,7 +1234,7 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
             current_palette_10 = sns.color_palette("Paired", TopNDatabaseByGrowth)
             sns.set_palette(current_palette_10)
 
-            plt.figure(num=None, figsize=(10, 6), dpi=300)
+            plt.figure(num=None, figsize=(16, 6), dpi=300)
 
             for name, data in grpd:
                 if name in top_List:
@@ -1490,13 +1490,13 @@ def mainline(DIRECTORY, TRAKDOCS, Do_Globals):
         top_List = df_ps_by_SumPGlobals["pName"].head(TopNDatabaseByGrowth).tolist()
 
         plt.style.use("seaborn-whitegrid")
-        plt.figure(figsize=(10, 6), dpi=300)
+        plt.figure(figsize=(16, 6), dpi=300)
 
         x = 0
         for name in top_List:
             df_ps_top_ind = df_master_ps[df_master_ps.pName == name]
             fig, ax1 = plt.subplots()
-            plt.gcf().set_size_inches(10, 6)
+            plt.gcf().set_size_inches(16, 6)
             plt.gcf().set_dpi(300)
             color = "g"
             line1 = ax1.plot(df_ps_top_ind["AvgPGlobals"], color=color)
